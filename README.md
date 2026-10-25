@@ -98,6 +98,12 @@ Requirements: JDK 21+, Maven 3.9+, Docker.
 
 For a local Maven run, start a MySQL 8 database and set `DB_URL`, `DB_USERNAME`, `DB_PASSWORD`, and `JWT_SECRET`, then run `mvn spring-boot:run`.
 
+### Railway deployment
+
+The root Dockerfile builds the React frontend into the Spring Boot static resources so the API and UI share one origin. In Railway, create a MySQL service and a Dockerfile-based app service from this repository/branch; `railway.json` selects the Dockerfile and `/healthz` healthcheck. Set the app's `DB_URL` to the JDBC URL built from the MySQL service host, port, and database name (`jdbc:mysql://${{MySQL.MYSQLHOST}}:${{MySQL.MYSQLPORT}}/${{MySQL.MYSQLDATABASE}}?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC`), and set `DB_USERNAME` and `DB_PASSWORD` to the matching MySQL service values. Also configure a unique `JWT_SECRET` (at least 32 bytes), `BOOTSTRAP_ADMIN_EMAIL`, and a unique 12–72 character `BOOTSTRAP_ADMIN_PASSWORD`; optionally set `DEMO_DATA_ENABLED=true` to create sample doctors. Railway sets `PORT` automatically. Generate a public domain for the app service. The application and frontend are served from that public domain.
+
+Configure `MAIL_HOST`, `MAIL_PORT`, `MAIL_USERNAME`, `MAIL_PASSWORD`, `MAIL_SMTP_AUTH`, and `MAIL_SMTP_STARTTLS` with a real transactional SMTP provider before relying on email confirmations or reminders. Do not use the local Mailpit settings in production.
+
 ## Main API
 
 | Capability | Endpoint |

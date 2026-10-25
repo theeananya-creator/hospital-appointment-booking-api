@@ -1,8 +1,10 @@
 import axios from "axios";
 
 const configuredBaseURL = import.meta.env.VITE_API_BASE_URL || "http://localhost:8080";
-// Dev requests use Vite's same-origin proxy; production requests use the configured API URL.
-const baseURL = import.meta.env.DEV ? "" : configuredBaseURL.replace(/\/$/, "");
+// Local development uses Vite's proxy; the deployed app serves its API on the same origin.
+const baseURL = import.meta.env.DEV || !import.meta.env.VITE_API_BASE_URL
+  ? ""
+  : configuredBaseURL.replace(/\/$/, "");
 
 export const api = axios.create({
   baseURL,

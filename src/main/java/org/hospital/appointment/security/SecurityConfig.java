@@ -33,6 +33,9 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/api/auth/**", "/v3/api-docs/**", "/swagger-ui/**", "/swagger-ui.html",
                                 "/api/specializations").permitAll()
+                        .requestMatchers("/", "/index.html", "/assets/**", "/favicon.ico", "/healthz",
+                                "/login", "/register", "/doctors", "/doctors/*",
+                                "/appointments", "/profile", "/doctor", "/admin").permitAll()
                         .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                         .requestMatchers(HttpMethod.GET, "/api/doctors", "/api/doctors/*",
                                 "/api/doctors/*/slots").permitAll()
